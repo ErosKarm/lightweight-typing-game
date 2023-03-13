@@ -19,31 +19,24 @@ const controlWords = function () {
   wordsView.render(model.state.words);
 };
 
-const controlTyping = async function () {
-  console.log('test');
+const controlTyping = function () {
+  if (
+    document
+      .getElementsByClassName('word')
+      [curWord].classList.contains('active') === false
+  ) {
+    document.getElementsByClassName('word')[curWord].className += ' active';
+  }
 };
-let curIndex = 0;
+let curLetter = 0;
 let curWord = 0;
 
-document.addEventListener('keypress', event => {
-  let letter = model.state.wordsJoined[curIndex];
+document.addEventListener('keydown', function (e) {
+  console.log(e.key);
 
-  if (letter === ' ') {
-    curWord = curWord + 1;
-    console.log('space');
-  }
-
-  if (letter === event.key) {
-    const selectedWord = document.getElementById(`word${curWord}`);
-
-    console.log(selectedWord);
-
-    curIndex = curIndex + 1;
-  }
-
-  console.log(letter);
-
-  console.log(event.key);
+  console.log(document.getElementsByClassName('active'));
+  console.log(model.state.words[curWord].length);
 });
 
 controlWords();
+controlTyping();

@@ -49,6 +49,9 @@ body {
 }
 
 .container-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
   width: 70%;
 }
 
@@ -58,4 +61,12 @@ header {
   & h2 {
     color: white;
   }
+}
+
+.correct {
+  color: white !important;
+}
+
+.incorrect {
+  color: red;
 }

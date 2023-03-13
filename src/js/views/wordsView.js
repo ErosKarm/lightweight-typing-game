@@ -14,15 +14,19 @@ class wordsView extends View {
       // Create word div
       const WordString = document.createElement('div');
 
-      for (let i = 0; i < wordSplit.length; i++) {
-        const spanElement = document.createElement('span');
-        console.log(wordSplit[i]);
-      }
-
       document
         .getElementById('words')
         .appendChild(WordString)
         .classList.add('word');
+
+      for (let i = 0; i < wordSplit.length; i++) {
+        const spanElement = document.createElement('letter');
+
+        spanElement.textContent = wordSplit[i];
+
+        WordString.appendChild(spanElement);
+        // console.log(wordSplit[i], spanElement);
+      }
 
       // for (let i = 0; i < word.length; i++)
       //   string += `;
