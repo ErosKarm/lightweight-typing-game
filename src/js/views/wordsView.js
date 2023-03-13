@@ -5,15 +5,32 @@ class wordsView extends View {
   _errorMessage = 'Failed to fetch';
 
   _generateMarkup() {
-    let string = `
-
-    `;
+    let mainString = '';
 
     for (let i = 0; i < this._data.length; i++) {
-      string += `<span id="word${i}">${this._data[i]}</span> `;
+      // Split letters into array
+      let wordSplit = this._data[i].split('');
+
+      // Create word div
+      const WordString = document.createElement('div');
+
+      for (let i = 0; i < wordSplit.length; i++) {
+        const spanElement = document.createElement('span');
+        console.log(wordSplit[i]);
+      }
+
+      document
+        .getElementById('words')
+        .appendChild(WordString)
+        .classList.add('word');
+
+      // for (let i = 0; i < word.length; i++)
+      //   string += `;
+      //   <span id="letter${i}">${word[i]}</span>
+      //    `;
     }
 
-    return string;
+    return mainString;
   }
 }
 
