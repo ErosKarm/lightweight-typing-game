@@ -4,6 +4,29 @@ import * as model from './model';
 import wordsView from './views/wordsView';
 import 'random-words';
 
+const checkUpdateCursor = function (key) {
+  const cursor = document.querySelector(
+    `.active letter:nth-child(${model.state.curLetter + 1})`
+  );
+
+  // Check if RESET GAME (TAB) was clicked
+  console.log(key);
+
+  // Check if the key clicked was Backspace and needs to go to previous word
+
+  // Check if the key clicked was Backspace
+
+  // Check if word is completed & space was clicked
+
+  // Check if letter is correct & add class
+
+  if (key) {
+    cursor.style.borderLeft = '2px solid #bfbfbd';
+  }
+
+  // Check if letter is incorrect & add class
+};
+
 const controlWords = function () {
   // 1) Render spinner
   wordsView.renderSpinner();
@@ -17,6 +40,13 @@ const controlWords = function () {
   // 4) Set first word as active
   document.getElementsByClassName('word')[model.state.curWord].className +=
     ' active';
+
+  // 5) Render type-cursor
+
+  const cursor = document.querySelector(
+    `.active letter:nth-child(${model.state.curLetter + 1})`
+  );
+  cursor.style.borderLeft = '2px solid #bfbfbd';
 };
 controlWords();
 // document.addEventListener('keydown', function (e) {
@@ -175,6 +205,7 @@ const controlTyping = function (e) {
     e.key !== 'Backspace'
   ) {
     checkCorrect();
+    checkUpdateCursor(e.key);
     return;
   }
 
