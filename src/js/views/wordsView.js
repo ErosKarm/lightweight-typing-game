@@ -21,9 +21,7 @@ class wordsView extends View {
 
       for (let i = 0; i < wordSplit.length; i++) {
         const spanElement = document.createElement('letter');
-
         spanElement.textContent = wordSplit[i];
-
         WordString.appendChild(spanElement);
         // console.log(wordSplit[i], spanElement);
       }
@@ -35,6 +33,9 @@ class wordsView extends View {
     }
 
     return mainString;
+  }
+  addHandlerRender(handler) {
+    document.addEventListener('keydown', handler);
   }
 }
 
