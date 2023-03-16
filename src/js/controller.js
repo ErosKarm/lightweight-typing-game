@@ -5,26 +5,23 @@ import wordsView from './views/wordsView';
 import 'random-words';
 
 const checkUpdateCursor = function (key) {
-  const cursor = document.querySelector(
-    `.active letter:nth-child(${model.state.curLetter + 1})`
-  );
+  const word = document.querySelector('.active');
+  const cursorIndex = model.state.curLetter;
+  const letters = word.childNodes;
 
-  // Check if RESET GAME (TAB) was clicked
-  console.log(key);
-
-  // Check if the key clicked was Backspace and needs to go to previous word
-
-  // Check if the key clicked was Backspace
-
-  // Check if word is completed & space was clicked
-
-  // Check if letter is correct & add class
-
-  if (key) {
-    cursor.style.borderLeft = '2px solid #bfbfbd';
+  // debugger;
+  for (let i = 0; i < letters.length; i++) {
+    if (i === cursorIndex) {
+      letters[i].classList.add('cursor');
+      letters[i].classList.remove('cursor-last');
+    } else if (i === cursorIndex - 1 && i === letters.length - 1) {
+      letters[i].classList.remove('cursor');
+      letters[i].classList.add('cursor-last');
+    } else {
+      letters[i].classList.remove('cursor');
+      letters[i].classList.remove('cursor-last');
+    }
   }
-
-  // Check if letter is incorrect & add class
 };
 
 const controlWords = function () {
@@ -43,56 +40,12 @@ const controlWords = function () {
 
   // 5) Render type-cursor
 
-  const cursor = document.querySelector(
-    `.active letter:nth-child(${model.state.curLetter + 1})`
-  );
-  cursor.style.borderLeft = '2px solid #bfbfbd';
+  // const cursor = document.querySelector(
+  //   `.active letter:nth-child(${model.state.curLetter + 1})`
+  // );
+  // cursor.style.borderLeft = '2px solid #bfbfbd';
 };
 controlWords();
-// document.addEventListener('keydown', function (e) {
-//   let children = document.querySelector('.active').children;
-//   let letter = children[curLetterNum].textContent;
-//   // Check if letter is correct
-//   if (e.key === letter) {
-//     children[curLetterNum].classList.add('correct');
-//     children[curLetterNum].style.borderLeft = 'none';
-//     curLetterNum = curLetterNum + 1;
-//   }
-
-//   // RESET game with 'TAB' key
-//   if (e.key === 'Tab') {
-//     e.preventDefault();
-//     resetWords();
-//   }
-
-//   // Check if WORD is completed && next key is space
-//   if (e.key === ' ' && model.state.words[curWord].length === curLetterNum) {
-//     nextWordSpace();
-//   }
-
-//   if (e.key === 'Backspace' && curLetterNum === 0) {
-//     console.log(curLetterNum);
-//     curWord = curWord - 1;
-//   }
-
-//   // Check if letter is not correct, and is not Backspace or Tab
-//   else if (
-//     (e.key !== letter || e.key === ' ') &&
-//     e.key !== 'Backspace' &&
-//     e.key !== 'Tab'
-//   ) {
-//     children[curLetterNum].classList.add('incorrect');
-//     curLetterNum = curLetterNum + 1;
-//     console.log(`incorrect key clicked: ${e.key}`);
-//   }
-//   // Check if the key clicked was Backspace
-//   else if (e.key === 'Backspace' && curLetterNum !== 0) {
-//     curLetterNum = curLetterNum - 1;
-//     children[curLetterNum].classList.remove('correct');
-//     children[curLetterNum].classList.remove('incorrect');
-//     console.log(curLetterNum);
-//   }
-// });
 
 const checkCorrect = function () {
   // 1) Add 'correct' class to letter.
@@ -165,12 +118,11 @@ const checkBackSpaceWord = function () {
 };
 
 const controlTyping = function (e) {
-  console.log(`Key clicked: ${e.key}`);
-
   // Check if RESET GAME (TAB) was clicked
   if (e.key === 'Tab') {
     e.preventDefault();
     checkReset();
+    checkUpdateCursor(e.key);
     return;
   }
 
@@ -178,6 +130,7 @@ const controlTyping = function (e) {
   if (e.key === 'Backspace' && model.state.curLetter === 0) {
     console.log('BACKSPACEword ACTIVATED');
     checkBackSpaceWord();
+    checkUpdateCursor(e.key);
     return;
   }
 
@@ -185,6 +138,7 @@ const controlTyping = function (e) {
   if (e.key === 'Backspace' && model.state.curLetter !== 0) {
     console.log('BACKSPACE ACTIVATED');
     checkBackSpace();
+    checkUpdateCursor(e.key);
     return;
   }
 
@@ -194,6 +148,7 @@ const controlTyping = function (e) {
     model.state.curLetter === model.state.words[model.state.curWord].length
   ) {
     checkSpace();
+    checkUpdateCursor(e.key);
     return;
   }
 
@@ -217,6 +172,7 @@ const controlTyping = function (e) {
     e.key !== 'Backspace'
   ) {
     checkWrong();
+    checkUpdateCursor(e.key);
     return;
   }
 };
@@ -224,7 +180,5 @@ const controlTyping = function (e) {
 const init = function () {
   wordsView.addHandlerRender(controlTyping);
 };
-
-console.log(model.state.words[model.state.curWord].length);
 
 init();
