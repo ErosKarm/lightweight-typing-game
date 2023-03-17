@@ -29,7 +29,7 @@ const controlWords = function () {
   wordsView.renderSpinner();
 
   // 2) Load words
-  model.loadWords(50);
+  model.loadWords(10);
 
   // 3) Render Words
   wordsView.render(model.state.words);
@@ -37,16 +37,34 @@ const controlWords = function () {
   // 4) Set first word as active
   document.getElementsByClassName('word')[model.state.curWord].className +=
     ' active';
-
-  // 5) Render type-cursor
-
-  // const cursor = document.querySelector(
-  //   `.active letter:nth-child(${model.state.curLetter + 1})`
-  // );
-  // cursor.style.borderLeft = '2px solid #bfbfbd';
 };
 controlWords();
 
+/////////////////////////////////////
+// Timer
+/////////////////////////////////////
+let seconds = 00;
+let Interval;
+let secondsText = document.querySelector('.seconds');
+const checkStartTimer = function () {
+  model.state.timer = true;
+  clearInterval(Interval);
+  Interval = setInterval(startTimer, 1000);
+};
+
+const checkStopTimer = function () {
+  clearInterval(Interval);
+};
+const checkResetTimer = function () {
+  model.state.timer = false;
+  clearInterval(Interval);
+  seconds = 00;
+  secondsText.innerHTML = seconds;
+};
+
+/////////////////////////////////////
+// Check correct
+/////////////////////////////////////
 const checkCorrect = function () {
   // 1) Add 'correct' class to letter.
   document
@@ -90,6 +108,9 @@ const checkReset = function () {
 
   // 2) Call controlWords
   controlWords();
+
+  // 3) Reset timer
+  checkResetTimer();
 };
 
 const checkBackSpace = function () {
@@ -117,10 +138,32 @@ const checkBackSpaceWord = function () {
     ' active';
 };
 
+function startTimer() {
+  seconds++;
+
+  secondsText.innerHTML = seconds;
+}
+
 const controlTyping = function (e) {
+  // Stop timer if last word and last letter are completed
+  if (
+    e.key === model.state.words.slice(-1).pop().at(-1) &&
+    model.state.curWord === model.state.words.length - 1
+  ) {
+    console.log('game completed');
+    checkStopTimer();
+  }
+
+  if (e.key && e.key !== 'Tab' && model.state.timer === false) {
+    // Check timer should start && add it to the model correct list
+
+    checkStartTimer();
+  }
+
   // Check if RESET GAME (TAB) was clicked
   if (e.key === 'Tab') {
     e.preventDefault();
+    console.log('game reset');
     checkReset();
     checkUpdateCursor(e.key);
     return;
