@@ -5,6 +5,7 @@ export const state = {
   curWord: 0,
   curLetter: 0,
   timer: false,
+  completed: false,
 };
 
 export const loadWords = function (numOfWords) {

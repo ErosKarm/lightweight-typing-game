@@ -80,3 +80,12 @@ header {
   font-size: 2.2rem !important;
   font-weight: 600;
 }
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.wpm {
+  color: white;
+}

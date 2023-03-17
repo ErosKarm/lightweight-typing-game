@@ -29,7 +29,7 @@ const controlWords = function () {
   wordsView.renderSpinner();
 
   // 2) Load words
-  model.loadWords(10);
+  model.loadWords(50);
 
   // 3) Render Words
   wordsView.render(model.state.words);
@@ -54,9 +54,11 @@ const checkStartTimer = function () {
 
 const checkStopTimer = function () {
   clearInterval(Interval);
+  model.state.completed = true;
 };
 const checkResetTimer = function () {
   model.state.timer = false;
+  model.state.completed = false;
   clearInterval(Interval);
   seconds = 00;
   secondsText.innerHTML = seconds;
@@ -99,6 +101,20 @@ const checkSpace = function () {
   // 4) Add active class to current word
   document.getElementsByClassName('word')[model.state.curWord].className +=
     ' active';
+};
+
+// control wpm
+const controlWpm = function () {
+  let seconds = document.querySelector('.seconds').textContent;
+  let wordLength = model.state.words.join(' ');
+
+  const numSpaces = (wordLength.match(/ /g) || []).length;
+
+  const numWords = numSpaces + 1;
+
+  const wpm = Math.floor(numWords / (seconds / 60));
+
+  document.querySelector('.wpm').textContent = `WPM: ${wpm}`;
 };
 
 const checkReset = function () {
@@ -145,21 +161,6 @@ function startTimer() {
 }
 
 const controlTyping = function (e) {
-  // Stop timer if last word and last letter are completed
-  if (
-    e.key === model.state.words.slice(-1).pop().at(-1) &&
-    model.state.curWord === model.state.words.length - 1
-  ) {
-    console.log('game completed');
-    checkStopTimer();
-  }
-
-  if (e.key && e.key !== 'Tab' && model.state.timer === false) {
-    // Check timer should start && add it to the model correct list
-
-    checkStartTimer();
-  }
-
   // Check if RESET GAME (TAB) was clicked
   if (e.key === 'Tab') {
     e.preventDefault();
@@ -167,6 +168,25 @@ const controlTyping = function (e) {
     checkReset();
     checkUpdateCursor(e.key);
     return;
+  }
+
+  // If game completed return instantly
+  if (model.state.completed === true) return;
+
+  // Stop timer if last word and last letter are completed
+  if (
+    e.key === model.state.words.slice(-1).pop().at(-1) &&
+    model.state.curWord === model.state.words.length - 1
+  ) {
+    console.log('game completed');
+    checkStopTimer();
+    controlWpm();
+  }
+
+  if (e.key && e.key !== 'Tab' && model.state.timer === false) {
+    // Check timer should start && add it to the model correct list
+
+    checkStartTimer();
   }
 
   // Check if the key clicked was Backspace and needs to go to previous word
