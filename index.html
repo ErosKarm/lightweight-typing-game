@@ -12,18 +12,55 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="src/sass/main.scss" />
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
     <script type="module" src="src/js/controller.js"></script>
   </head>
   <body>
     <div class="container">
       <header>
+        <div class="header-settings">
+          <button>Words 10</button>
+          <button>Words 25</button>
+          <button>Words 50</button>
+          <button>Words 100</button>
+        </div>
+
         <div class="header-container">
-          <span class="seconds">0</span>
-          <span class="wpm">WPM</span>
+          <button class="reset-button">
+            <img class="reset-button-svg" src="/src/img/refresh-outline.svg" />
+          </button>
         </div>
       </header>
 
-      <div id="words" class="container-words"></div>
+      <div class="words-container">
+        <div id="words" class="container-words"></div>
+        <div class="words-stats hidden">
+          <h2>Typing Stats</h2>
+          <div class="words-stats-wpm">
+            <h1>WPM</h1>
+            <span class="wpm words-stats-number">15</span>
+          </div>
+          <div class="words-stats-rawWpm">
+            <h1>RAW WPM</h1>
+            <span class="rawWpm words-stats-number">15</span>
+          </div>
+          <div class="words-stats-accuracy">
+            <h1>ACCURACY</h1>
+            <span class="accuracy words-stats-number">15</span>
+          </div>
+          <div class="words-stats-seconds">
+            <h1>SECONDS</h1>
+            <span class="seconds words-stats-number">15</span>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

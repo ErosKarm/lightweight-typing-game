@@ -29,7 +29,7 @@ const controlWords = function () {
   wordsView.renderSpinner();
 
   // 2) Load words
-  model.loadWords(50);
+  model.loadWords(10);
 
   // 3) Render Words
   wordsView.render(model.state.words);
@@ -37,36 +37,48 @@ const controlWords = function () {
   // 4) Set first word as active
   document.getElementsByClassName('word')[model.state.curWord].className +=
     ' active';
+
+  // 5) Calculate average string length in array
+  model.calculateAverageStringLength(model.state.words);
+
+  // 6) Calculate completeLength
+  model.state.completeLength = model.state.words.join(' ').length;
 };
 controlWords();
 
 /////////////////////////////////////
 // Timer
 /////////////////////////////////////
-let seconds = 00;
-let Interval;
+
 let secondsText = document.querySelector('.seconds');
 const checkStartTimer = function () {
   model.state.timer = true;
-  clearInterval(Interval);
-  Interval = setInterval(startTimer, 1000);
+  model.state.startTime = performance.now();
+  console.log(model.state.startTime);
 };
 
 const checkStopTimer = function () {
-  clearInterval(Interval);
+  model.state.endTime = performance.now();
   model.state.completed = true;
+  document.querySelector('.container-words').classList.add('hidden');
+  document.querySelector('.words-stats').classList.remove('hidden');
 };
 const checkResetTimer = function () {
+  performance.now();
   model.state.timer = false;
   model.state.completed = false;
-  clearInterval(Interval);
-  seconds = 00;
-  secondsText.innerHTML = seconds;
+  model.state.startTime = 0;
+  model.state.endTime = 0;
 };
 
 /////////////////////////////////////
 // Check correct
 /////////////////////////////////////
+
+const checkWordsTyped = function (key) {
+  model.state.wordsTyped = model.state.wordsTyped + key;
+};
+
 const checkCorrect = function () {
   // 1) Add 'correct' class to letter.
   document
@@ -75,6 +87,9 @@ const checkCorrect = function () {
 
   // 2) Update curLetter value in model
   model.state.curLetter = model.state.curLetter + 1;
+
+  // 3) Add correctly typed
+  model.state.correct = model.state.correct + 1;
 };
 
 const checkWrong = function () {
@@ -105,28 +120,60 @@ const checkSpace = function () {
 
 // control wpm
 const controlWpm = function () {
-  let seconds = document.querySelector('.seconds').textContent;
-  let wordLength = model.state.words.join(' ');
+  // Calculate Seconds
+  let seconds = (model.state.endTime - model.state.startTime) / 1000;
+  document.querySelector('.seconds').textContent = seconds.toFixed(1);
 
-  const numSpaces = (wordLength.match(/ /g) || []).length;
+  // Calculate WPM
+  console.log(`Correctly typed: ${model.state.correct}`);
+  const wpm =
+    (model.state.correct + (model.state.words.length - 1)) /
+    model.state.averageLength /
+    (seconds / 60);
+  document.querySelector('.wpm').textContent = `${wpm.toFixed(2)}`;
 
-  const numWords = numSpaces + 1;
+  // Calculate Accuracy
+  const input = model.state.words.join(' ');
+  const answer = model.state.wordsTyped;
+  let mistakes = 0;
+  for (let i = 0; i < input.length; i++) {
+    if (input[i] !== answer[i]) {
+      mistakes++;
+    }
+  }
+  const totalChars = answer.length;
+  const accuracy = ((totalChars - mistakes) / totalChars) * 100;
+  document.querySelector('.accuracy').textContent = `${accuracy}%`;
 
-  const wpm = Math.floor(numWords / (seconds / 60));
-
-  document.querySelector('.wpm').textContent = `WPM: ${wpm}`;
+  // Calculate RAW WPM
+  console.log(`Raw typed: ${model.state.totalPressedKeys}`);
+  const rawWpm =
+    model.state.totalPressedKeys / model.state.averageLength / (seconds / 60);
+  document.querySelector('.rawWpm').textContent = `${rawWpm.toFixed(2)}`;
 };
 
 const checkReset = function () {
   // 1) Reset attributes in model
   model.state.curLetter = 0;
   model.state.curWord = 0;
+  model.state.totalPressedKeys = 0;
+  model.state.correct = 0;
+  model.state.startTime = 0;
+  model.state.endTime = 0;
+  model.state.wordsTyped = '';
 
   // 2) Call controlWords
   controlWords();
 
   // 3) Reset timer
   checkResetTimer();
+
+  // 4) Remove hidden class from words
+  document.querySelector('.container-words').classList.remove('hidden');
+
+  // 5) Add hidden class to stats
+
+  document.querySelector('.words-stats').classList.add('hidden');
 };
 
 const checkBackSpace = function () {
@@ -154,12 +201,6 @@ const checkBackSpaceWord = function () {
     ' active';
 };
 
-function startTimer() {
-  seconds++;
-
-  secondsText.innerHTML = seconds;
-}
-
 const controlTyping = function (e) {
   // Check if RESET GAME (TAB) was clicked
   if (e.key === 'Tab') {
@@ -178,20 +219,35 @@ const controlTyping = function (e) {
     e.key === model.state.words.slice(-1).pop().at(-1) &&
     model.state.curWord === model.state.words.length - 1
   ) {
+    model.state.wordsTyped = model.state.wordsTyped + e.key;
     console.log('game completed');
     checkStopTimer();
     controlWpm();
   }
 
-  if (e.key && e.key !== 'Tab' && model.state.timer === false) {
-    // Check timer should start && add it to the model correct list
+  // Update wordsTyped
 
+  // Update model.state Keypresses
+  if (
+    e.key &&
+    e.key !== 'Tab' &&
+    e.key !== 'Backspace' &&
+    model.state.curLetter !== model.state.words[model.state.curWord].length
+  ) {
+    model.state.totalPressedKeys = model.state.totalPressedKeys + 1;
+
+    model.state.wordsTyped = model.state.wordsTyped + e.key;
+  }
+
+  // Check timer should start && add it to the model correct list
+  if (e.key && e.key !== 'Tab' && model.state.timer === false) {
     checkStartTimer();
   }
 
   // Check if the key clicked was Backspace and needs to go to previous word
   if (e.key === 'Backspace' && model.state.curLetter === 0) {
     console.log('BACKSPACEword ACTIVATED');
+    model.state.wordsTyped = model.state.wordsTyped.slice(0, -1);
     checkBackSpaceWord();
     checkUpdateCursor(e.key);
     return;
@@ -200,6 +256,7 @@ const controlTyping = function (e) {
   // Check if the key clicked was Backspace
   if (e.key === 'Backspace' && model.state.curLetter !== 0) {
     console.log('BACKSPACE ACTIVATED');
+    model.state.wordsTyped = model.state.wordsTyped.slice(0, -1);
     checkBackSpace();
     checkUpdateCursor(e.key);
     return;
@@ -210,6 +267,7 @@ const controlTyping = function (e) {
     e.key === ' ' &&
     model.state.curLetter === model.state.words[model.state.curWord].length
   ) {
+    model.state.wordsTyped = model.state.wordsTyped + e.key;
     checkSpace();
     checkUpdateCursor(e.key);
     return;

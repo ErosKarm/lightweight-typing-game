@@ -34,11 +34,38 @@ body {
   font-weight: 400;
   line-height: 1.6;
   background-color: $color-bg-color;
-  min-height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+header {
+  height: 6vh;
+  display: flex;
+  gap: 2rem;
+  background-color: #1d1d1d;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+  border-radius: 5px 5px 5px 5px;
+}
+
+.header-settings button {
+  background-color: #111111;
+  color: white;
+  border: none;
+  font-family: 'Poppins';
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+}
+
+.header-settings button:hover {
+  background-color: #1d1d1d;
+  cursor: pointer;
 }
 
 .container {
-  height: 100vh;
   display: flex;
   gap: 2rem;
   flex-direction: column;
@@ -48,16 +75,25 @@ body {
   color: $color-main-text;
 }
 
+.words-container {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .container-words {
   display: flex;
+
   flex-wrap: wrap;
   gap: 0.6rem;
-  width: 70%;
+  width: 100%;
 }
 
 header {
-  width: 70%;
-
+  width: 35%;
+  margin-top: 2rem;
   & h2 {
     color: white;
   }
@@ -76,9 +112,6 @@ header {
 }
 
 .seconds {
-  color: white;
-  font-size: 2.2rem !important;
-  font-weight: 600;
 }
 
 .header-container {
@@ -88,4 +121,47 @@ header {
 
 .wpm {
   color: white;
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.reset-button {
+  background-color: transparent;
+  border: none;
+}
+
+.reset-button:hover {
+  cursor: pointer;
+}
+
+.reset-button-svg {
+  height: 20px;
+  width: 20px;
+  background-color: none;
+  color: white;
+  fill: rgb(255, 255, 255);
+}
+
+.words-stats {
+  display: flex;
+  background-color: #161616;
+  border-radius: 5px;
+  width: 100%;
+  padding: 3rem 6rem;
+  gap: 15rem;
+}
+
+.words-stats h1 {
+  font-size: 2rem;
+  text-transform: lowercase;
+}
+
+.words-stats-number {
+  color: white;
+  font-size: 4rem;
+  font-weight: 700;
 }
