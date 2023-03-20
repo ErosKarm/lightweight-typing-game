@@ -25,11 +25,39 @@
   <body>
     <div class="container">
       <header>
-        <div class="header-settings">
-          <button>Words 10</button>
-          <button>Words 25</button>
-          <button>Words 50</button>
-          <button>Words 100</button>
+        <div tabindex="-1" class="header-settings">
+          <button
+            aria-hidden="true"
+            tabindex="-1"
+            data-words="10"
+            class="words-button-active words10 words-button"
+          >
+            Words 10
+          </button>
+          <button
+            aria-hidden="true"
+            tabindex="-1"
+            data-words="25"
+            class="words25 words-button"
+          >
+            Words 25
+          </button>
+          <button
+            aria-hidden="true"
+            tabindex="-1"
+            data-words="50"
+            class="words50 words-button"
+          >
+            Words 50
+          </button>
+          <button
+            aria-hidden="true"
+            tabindex="-1"
+            data-words="100"
+            class="words100 words-button"
+          >
+            Words 100
+          </button>
         </div>
 
         <div class="header-container">

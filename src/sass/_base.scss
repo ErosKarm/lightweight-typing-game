@@ -42,7 +42,6 @@ header {
   height: 6vh;
   display: flex;
   gap: 2rem;
-  background-color: #1d1d1d;
   align-items: center;
   justify-content: space-between;
   padding: 2rem;
@@ -80,14 +79,14 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 50%;
   justify-content: center;
 }
 
 .container-words {
   display: flex;
-
-  flex-wrap: wrap;
   gap: 0.6rem;
+  flex-wrap: wrap;
   width: 100%;
 }
 
@@ -151,17 +150,29 @@ header {
   background-color: #161616;
   border-radius: 5px;
   width: 100%;
-  padding: 3rem 6rem;
-  gap: 15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 4rem;
+  gap: 5rem;
 }
 
 .words-stats h1 {
-  font-size: 2rem;
+  font-size: 1.75rem;
+
   text-transform: lowercase;
 }
 
 .words-stats-number {
   color: white;
-  font-size: 4rem;
+  font-size: 3.5rem;
   font-weight: 700;
+}
+
+.words-button-active {
+  background-color: white !important;
+  color: black !important;
+}
+
+.words-button {
 }

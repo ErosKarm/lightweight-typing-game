@@ -1,6 +1,7 @@
 import words from 'random-words';
 
 export const state = {
+  testLength: 10,
   words: [],
   wordsTyped: '',
   curWord: 0,
@@ -20,6 +21,13 @@ export const loadWords = function (numOfWords) {
 };
 
 export const calculateAverageStringLength = function (words) {
-  const averageLength = words.join('').length / state.words.length;
-  state.averageLength = averageLength;
+  let totalChars = 0;
+
+  for (let i = 0; i < words.length; i++) {
+    totalChars += words[i].length;
+  }
+
+  const avgWordLength = totalChars / words.length;
+
+  state.averageLength = avgWordLength;
 };
