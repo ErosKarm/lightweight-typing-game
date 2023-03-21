@@ -65,3 +65,13 @@ export const checkWrong = function () {
   // 1) Update curLetter value in model
   state.curLetter = state.curLetter + 1;
 };
+
+export const resetAttributesModel = function () {
+  state.curLetter = 0;
+  state.curWord = 0;
+  state.totalPressedKeys = 0;
+  state.correct = 0;
+  state.startTime = 0;
+  state.endTime = 0;
+  state.wordsTyped = '';
+};

@@ -77,13 +77,10 @@ const checkSpace = function () {
 const controlWpm = function () {
   // Calculate Seconds
   let seconds = (model.state.endTime - model.state.startTime) / 1000;
-  console.log();
   document.querySelector('.seconds').textContent = seconds.toFixed(1);
 
   // Calculate WPM
-
   const wpm = model.state.correct / model.state.averageLength / (seconds / 60);
-
   document.querySelector('.wpm').textContent = `${wpm.toFixed(2)}`;
 
   // Calculate Accuracy
@@ -97,16 +94,12 @@ const controlWpm = function () {
   }
   const totalChars = answer.length;
   const accuracy = ((totalChars - mistakes) / totalChars) * 100;
-
   document.querySelector('.accuracy').textContent = `${accuracy.toFixed(2)}%`;
 
   // Calculate RAW WPM
   const rawWpm =
     model.state.totalPressedKeys / model.state.averageLength / (seconds / 60);
   document.querySelector('.rawWpm').textContent = `${rawWpm.toFixed(2)}`;
-
-  console.log(`Total pressed keys: ${model.state.totalPressedKeys}`);
-  console.log(`Correct pressed keys: ${model.state.correct}`);
 
   // Add test type to stats
   document.querySelector(
@@ -131,13 +124,7 @@ const controlWpm = function () {
 
 const checkReset = function () {
   // 1) Reset attributes in model
-  model.state.curLetter = 0;
-  model.state.curWord = 0;
-  model.state.totalPressedKeys = 0;
-  model.state.correct = 0;
-  model.state.startTime = 0;
-  model.state.endTime = 0;
-  model.state.wordsTyped = '';
+  model.resetAttributesModel();
 
   // 2) Call controlWords
   controlWords();
