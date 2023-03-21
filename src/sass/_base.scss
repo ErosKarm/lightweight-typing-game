@@ -154,12 +154,11 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 2rem 4rem;
-  gap: 5rem;
+  gap: 0rem;
 }
 
 .words-stats h1 {
   font-size: 1.75rem;
-
   text-transform: lowercase;
 }
 
@@ -174,5 +173,20 @@ header {
   color: black !important;
 }
 
-.words-button {
+.words-stats-column {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.words-stats-number2 {
+  color: rgb(145, 145, 145);
+  font-size: 1.6rem;
+  font-weight: 5300;
+}
+
+.words-stats h2 {
+  font-size: 1.75rem;
+  text-transform: lowercase;
+  color: #363636;
 }

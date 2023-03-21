@@ -155,6 +155,26 @@ const controlWpm = function () {
 
   console.log(`Total pressed keys: ${model.state.totalPressedKeys}`);
   console.log(`Correct pressed keys: ${model.state.correct}`);
+
+  // Add test type to stats
+  document.querySelector(
+    '.test-length'
+  ).textContent = `${model.state.testLength} Words`;
+
+  // Add Total keypresses to stats
+  document.querySelector(
+    '.total-keys'
+  ).textContent = `${model.state.totalPressedKeys}`;
+
+  // Add Correct keypresses to stats
+  document.querySelector(
+    '.correct-keys'
+  ).textContent = `${model.state.correct}`;
+
+  // Add Word-length to stats
+  document.querySelector(
+    '.word-length'
+  ).textContent = `${model.state.averageLength}`;
 };
 
 const checkReset = function () {
