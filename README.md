@@ -1,4 +1,6 @@
 # Lightweight Typing Test Game
+![main](https://user-images.githubusercontent.com/48349453/226576755-9b2382a3-2220-4b80-b21f-63ff50525884.png)
+
 
 This is a lightweight typing test game, where you can test your typing speed with 4 different types of typing tests - 10 words, 25 words, 50 words, and 100 words. The typing speed is calculated using the `performance.now()` method, which gives accurate responses.
 
