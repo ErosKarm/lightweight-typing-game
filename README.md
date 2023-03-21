@@ -10,6 +10,9 @@ The files are structured using the Model-View-Controller (MVC) architecture.
 
 The words per minute (WPM) is calculated using the average word length that is currently presented in the game, which gives a more accurate WPM.
 
+![main2](https://user-images.githubusercontent.com/48349453/226576966-7d41136b-edf7-4a1c-920c-d5c34506e6d9.png)
+
+
 ## How to Play
 
 1. Clone the repository to your local machine.
