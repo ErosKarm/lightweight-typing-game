@@ -49,61 +49,13 @@ const controlWords = function () {
   model.calculateAverageStringLength(model.state.words);
 
   // 6) Calculate completeLength
-  model.state.completeLength = model.state.words.join(' ').length;
+  model.calculateCompleteLength();
 };
 controlWords();
 
 /////////////////////////////////////
-// Timer
-/////////////////////////////////////
-
-let secondsText = document.querySelector('.seconds');
-const checkStartTimer = function () {
-  model.state.timer = true;
-  model.state.startTime = performance.now();
-  console.log(model.state.startTime);
-};
-
-const checkStopTimer = function () {
-  model.state.endTime = performance.now();
-  model.state.completed = true;
-  document.querySelector('.container-words').classList.add('hidden');
-  document.querySelector('.words-stats').classList.remove('hidden');
-};
-const checkResetTimer = function () {
-  performance.now();
-  model.state.timer = false;
-  model.state.completed = false;
-  model.state.startTime = 0;
-  model.state.endTime = 0;
-};
-
-/////////////////////////////////////
 // Check correct
 /////////////////////////////////////
-
-const checkCorrect = function () {
-  // 1) Add 'correct' class to letter.
-  document
-    .querySelector('.active')
-    .children[model.state.curLetter].classList.add('correct');
-
-  // 2) Update curLetter value in model
-  model.state.curLetter = model.state.curLetter + 1;
-
-  // 3) Add correctly typed
-  model.state.correct = model.state.correct + 1;
-};
-
-const checkWrong = function () {
-  // 1) Add 'incorrect' class to letter.
-  document
-    .querySelector('.active')
-    .children[model.state.curLetter].classList.add('incorrect');
-
-  // 2) Update curLetter value in model
-  model.state.curLetter = model.state.curLetter + 1;
-};
 
 const checkSpace = function () {
   // 1) Change current letter to 0 in model.
@@ -191,7 +143,7 @@ const checkReset = function () {
   controlWords();
 
   // 3) Reset timer
-  checkResetTimer();
+  model.checkResetTimer();
 
   // 4) Remove hidden class from words
   document.querySelector('.container-words').classList.remove('hidden');
@@ -247,7 +199,9 @@ const controlTyping = function (e) {
   ) {
     model.state.wordsTyped = model.state.wordsTyped + e.key;
 
-    checkStopTimer();
+    model.checkStopTimer();
+    document.querySelector('.container-words').classList.add('hidden');
+    document.querySelector('.words-stats').classList.remove('hidden');
     controlWpm();
   }
 
@@ -267,7 +221,7 @@ const controlTyping = function (e) {
 
   // Check timer should start && add it to the model correct list
   if (e.key && e.key !== 'Tab' && model.state.timer === false) {
-    checkStartTimer();
+    model.checkStartTimer();
   }
 
   // Check if the key clicked was Backspace and needs to go to previous word
@@ -304,7 +258,11 @@ const controlTyping = function (e) {
         .textContent &&
     e.key !== 'Backspace'
   ) {
-    checkCorrect();
+    document
+      .querySelector('.active')
+      .children[model.state.curLetter].classList.add('correct');
+    model.checkCorrect();
+
     checkUpdateCursor(e.key);
     return;
   }
@@ -316,7 +274,10 @@ const controlTyping = function (e) {
         .textContent &&
     e.key !== 'Backspace'
   ) {
-    checkWrong();
+    document
+      .querySelector('.active')
+      .children[model.state.curLetter].classList.add('incorrect');
+    model.checkWrong();
     checkUpdateCursor(e.key);
     return;
   }
@@ -385,6 +346,3 @@ button100.addEventListener('click', function (e) {
 });
 
 init();
-
-console.log(model.state.curLetter);
-console.log(model.state.words[model.state.curWord].length - 1);

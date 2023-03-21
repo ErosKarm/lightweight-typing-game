@@ -31,3 +31,37 @@ export const calculateAverageStringLength = function (words) {
 
   state.averageLength = avgWordLength;
 };
+
+export const calculateCompleteLength = function () {
+  state.completeLength = state.words.join(' ').length;
+};
+
+export const checkStartTimer = function () {
+  state.timer = true;
+  state.startTime = performance.now();
+};
+
+export const checkStopTimer = function () {
+  state.endTime = performance.now();
+  state.completed = true;
+};
+export const checkResetTimer = function () {
+  performance.now();
+  state.timer = false;
+  state.completed = false;
+  state.startTime = 0;
+  state.endTime = 0;
+};
+
+export const checkCorrect = function () {
+  // 1) Update curLetter value in model
+  state.curLetter = state.curLetter + 1;
+
+  // 3) Add correctly typed
+  state.correct = state.correct + 1;
+};
+
+export const checkWrong = function () {
+  // 1) Update curLetter value in model
+  state.curLetter = state.curLetter + 1;
+};
