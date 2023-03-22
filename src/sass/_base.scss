@@ -191,3 +191,13 @@ header {
   text-transform: lowercase;
   color: #363636;
 }
+
+.previous-results {
+  position: absolute;
+  bottom: 15px;
+}
+
+.previous-results span {
+  font-size: 1.6rem;
+  color: #444444;
+}

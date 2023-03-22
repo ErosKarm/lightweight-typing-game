@@ -120,6 +120,12 @@ const controlWpm = function () {
   document.querySelector(
     '.word-length'
   ).textContent = `${model.state.averageLength}`;
+
+  // Display previous best.
+
+  document.querySelector(
+    '.previous-results-span'
+  ).textContent = `Previous best: ${wpm.toFixed(2)}WPM`;
 };
 
 const checkReset = function () {
@@ -137,6 +143,8 @@ const checkReset = function () {
 
   // 5) Add hidden class to stats
   document.querySelector('.words-stats').classList.add('hidden');
+
+  // 6) Reset textcontent of Previous best
 };
 
 const checkBackSpace = function () {
