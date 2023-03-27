@@ -16,10 +16,11 @@ The words per minute (WPM) is calculated using the average word length that is c
 ## How to Play
 
 1. Clone the repository to your local machine.
-2. Open the `index.html` file in your browser.
-3. Select the type of typing test you want to take - 10 words, 25 words, 50 words, or 100 words.
-4. Start typing the words that appear on the screen.
-5. Your typing speed in words per minute (WPM) will be calculated and displayed at the end of the test.
+2. Run npm install.
+3. Run npm start.
+4. Select the type of typing test you want to take - 10 words, 25 words, 50 words, or 100 words.
+5. Start typing the words that appear on the screen.
+6. Your typing speed in words per minute (WPM) will be calculated and displayed at the end of the test.
 
 ## Technologies Used
 
